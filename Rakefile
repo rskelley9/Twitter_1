@@ -99,7 +99,7 @@ namespace :db do
   end
 
   desc "Drop the database at #{DB_NAME}"
-  task :drop do
+  task :Ill_See_You_In_Hell do
     puts "Dropping #{DB_NAME}..."
     system("dropdb #{DB_NAME}")
   end
