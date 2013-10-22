@@ -18,6 +18,11 @@ class TwitterUser < ActiveRecord::Base
     Twitter.user(handle).name
   end
 
+  def fetch_tweet
+    tweet = Twitter.user_timeline(self.handle, count:1)
+    Tweet.create(twitter_user_id: self.id, text: tweet.text, tweet_time: tweet.created_at)
+  end
+
   def fetch_tweets
     tweets = Twitter.user_timeline(self.handle, count: 10)
     tweets.each do |tweet|
@@ -32,4 +37,9 @@ class TwitterUser < ActiveRecord::Base
       Follower.create(handle: follower.handle, twitter_user_id: self.id)
     end
   end
+
+  def tweet(text)
+    Twitter.update(text)
+  end
+
 end

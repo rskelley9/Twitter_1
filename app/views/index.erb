@@ -2,10 +2,11 @@
   <h2 style="font-weight: bold;"><h2>
 
     <form id="get_tweet" action="/twitter/user" method="POST">
-      <input id="handle" type="text" placeholder="Handle" name="handle">
+      <input id="handle" type="text" placeholder="Your Twitter Handle" name="handle">
 
-      See Your Followers<input id="see_followers"type="radio" name="see_followers" value="false">
+      See Your Followers<input id="see_followers"type="radio" name="see_followers" value="true">
       See Your Tweets<input id="see_tweets" type="radio" name="see_followers" value="true" checked="checked">
+      Tweet to Your Followers<input id="tweet_followers" type="radio" name="see_followers" value="tweet" checked="checked">
       <input type="submit" value="GO!">
     </form>
   </div>
