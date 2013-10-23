@@ -6,7 +6,7 @@ get '/:handle' do
   @user = TwitterUser.generate(params[:handle])
   session[:user_id] = @user.id
   @tweets = @user.tweets
-  
+
   if better_stale?(@user)
     if request.xhr?
      erb :tweets, layout: false
@@ -21,7 +21,7 @@ end
 
 post "/twitter/user" do
   @handle = params[:handle]
-  @radio = params[:see_followers] 
+  @radio = params[:see_followers]
 
   if @radio == true.to_s
 
@@ -39,11 +39,25 @@ get "/followers/:handle" do
   session[:user_id] = @user.id
 
   if better_stale?(@user)
-    # if request.xhr?
     @followers = @user.fetch_followers
     erb :followers
   else
     @followers = @user.followers
-  erb :followers
+    erb :followers
+  end
+end
+
+#========= tweeting route ===========
+
+post "/tweet/user" do
+
+  if request.xhr?
+
+    @user = TwitterUser.generate(params[:handle])
+    @user.tweet(params[:text])
+
+    @user.tweets << Tweet.create(text: params[:text], tweet_time: params[:tweet_time])
+    @tweets = @user.tweets.limit(5)
+    erb :tweets
   end
 end
