@@ -1,6 +1,7 @@
 $(document).ready(function() {
-  $('#get_tweet').on('submit', function(event){
+  $('#GO').on('click', function(event){
     event.preventDefault();
+
     var handle = $('#handle').val();
     var radio = $('#see_followers').val();
     var url = "/"+handle+"";
@@ -15,7 +16,8 @@ $(document).ready(function() {
         $('#add_yo_stuff').html(response);
       });
     }
-    else if ($('#see_followers:checked').val() == "true")
+
+    else if ($('#see_tweets:checked').val() == "true")
     {
       $.get(url, function(response){
         $('#add_yo_stuff').html(response);
@@ -24,11 +26,11 @@ $(document).ready(function() {
 
     }
 
-    else
+    else if ($('#tweet_followers:checked').val() == "tweet")
     {
       var tweet_form = "<form id='post_tweet' action='/tweet/handle/text' method='POST'><input id='twitterhandle' type='text' placeholder='Your Twitter Handle' name='handle'><input id='text' type='text' placeholder='Tweet Text' name='text'><input id='tweet' type='submit' value='TWEET!'></form>"
-
       $('#get_tweet').after(tweet_form)
+      $("img[src='/gif/ajax-loader.gif']").addClass("hidden")
 
       $('#tweet').on('click', function(event){
         event.preventDefault();
@@ -36,15 +38,11 @@ $(document).ready(function() {
 
         var text = $('#text').val()
         var timestamp = new Date()
-        var twitter_handle = $('#twitter_handle')
+        var twitter_handle = $('#twitterhandle').val()
         var data = {handle: twitter_handle, text: text, tweet_time: timestamp}
         var tweet_url = "/tweet/user"
 
-        $.ajax({
-          url: tweet_url,
-          type: "POST",
-          data: data
-        }).done(function(response){
+        $.post(tweet_url, data, function(response){
           $('#add_yo_stuff').html(response)
         })
 
